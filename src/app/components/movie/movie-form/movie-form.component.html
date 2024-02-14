@@ -1,0 +1,60 @@
+<div class="modal-md">
+  <form [formGroup]="movieForm">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-subtitle><h3>{{formTitle}}</h3></mat-card-subtitle>
+        <mat-card-title>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>Título</mat-label>
+            <input matInput formControlName="title" placeholder="Título">
+            <mat-error *ngIf="movieForm.get('title')?.invalid">El título es requerido.</mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>Año de estreno</mat-label>
+            <input matInput type="number" formControlName="released" placeholder="Año de estreno">
+            <mat-error *ngIf="movieForm.get('released')?.invalid">El año de estreno es requerido y debe ser un número
+              válido.</mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+
+          <mat-form-field appearance="fill" class="example-form-field">
+            <mat-label>Géneros</mat-label>
+            <mat-chip-grid #chipGrid formControlName="genre">
+              <mat-chip-row *ngFor="let genreChip of genreChips; let i= index" (removed)="removeKeyword(i)">
+                {{genreChip}}
+                <button matChipRemove aria-label="'remove ' + keyword">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+            </mat-chip-grid>
+            <input placeholder="Para agregar presione enter" [matChipInputFor]="chipGrid"
+              (matChipInputTokenEnd)="add($event)" />
+            <mat-error *ngIf="movieForm.get('genre')?.invalid">Debe agregar al menos un genero.</mat-error>
+          </mat-form-field>
+
+        </div>
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>Sinopsis</mat-label>
+            <textarea matInput formControlName="synopsis" placeholder="Sinopsis"></textarea>
+            <mat-error *ngIf="movieForm.get('synopsis')?.invalid">La sinopsis es requerida.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-divider></mat-divider>
+      </mat-card-content>
+      <mat-card-actions class="d-flex flex-row-reverse">
+        <button class="mx-2" color="primary" mat-flat-button [disabled]="movieForm.invalid" (click)="saveMovie()">Guardar</button>
+        <button class="mx-2" color="warn" mat-flat-button (click)="closeModal()">Cancelar</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+
+</div>
